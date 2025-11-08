@@ -3,7 +3,7 @@ Prompt optimization for reducing token usage.
 """
 from typing import List, Optional, Dict
 from dataclasses import dataclass
-from argentum.cost_optimization.token_counter import TokenCounter, TokenizerType
+from .token_counter import TokenCounter, TokenizerType
 import re
 
 @dataclass

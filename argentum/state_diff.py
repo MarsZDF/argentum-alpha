@@ -122,6 +122,16 @@ class StateDiff:
             self._cost_tracker = None
             self._token_counter = None
     
+    @property
+    def snapshots(self) -> Dict[str, Dict[str, Any]]:
+        """
+        Get all snapshots (read-only).
+        
+        Returns:
+            Dictionary of all snapshots by label
+        """
+        return self._snapshots.copy()
+    
     def snapshot(self, label: str, state: Dict[str, Any], cost_context: Optional[Dict[str, Any]] = None) -> None:
         """
         Capture a state snapshot with a descriptive label.

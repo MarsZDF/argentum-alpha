@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from collections import defaultdict
 import threading
-from argentum.cost_optimization.token_counter import TokenUsage, TokenizerType, estimate_cost
+from .token_counter import TokenUsage, TokenizerType, estimate_cost
 
 @dataclass
 class CostBreakdown:
@@ -67,7 +67,7 @@ class CostTracker:
             cost: Actual cost if known (otherwise estimated)
             metadata: Additional metadata
         """
-        from argentum.cost_optimization.token_counter import TokenUsage, TokenizerType
+        from .token_counter import TokenUsage, TokenizerType
         
         # Create TokenUsage object
         if model.lower().startswith("gpt-4"):
@@ -186,7 +186,7 @@ class CostTracker:
                 
                 # Safe token cost calculation
                 try:
-                    from argentum.cost_optimization.token_counter import estimate_cost
+                    from .token_counter import estimate_cost
                     input_cost += estimate_cost(event.token_usage.input_tokens, event.token_usage.tokenizer_type, False)
                     output_cost += estimate_cost(event.token_usage.output_tokens, event.token_usage.tokenizer_type, True)
                 except:

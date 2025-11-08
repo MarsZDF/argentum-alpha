@@ -4,7 +4,7 @@ Context pruning for aggressive token reduction.
 from typing import List, Tuple, Any, Optional
 from enum import Enum
 from dataclasses import dataclass
-from argentum.cost_optimization.token_counter import TokenCounter, TokenizerType
+from .token_counter import TokenCounter, TokenizerType
 
 class PruningStrategy(Enum):
     AGGRESSIVE = "aggressive"

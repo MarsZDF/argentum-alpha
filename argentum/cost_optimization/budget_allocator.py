@@ -6,7 +6,7 @@ from enum import Enum
 from dataclasses import dataclass, field
 from datetime import datetime
 import threading
-from argentum.cost_optimization.token_budget import TokenBudgetManager
+from .token_budget import TokenBudgetManager
 
 class AllocationStrategy(Enum):
     EQUAL = "equal"

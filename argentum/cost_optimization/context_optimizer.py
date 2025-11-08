@@ -4,7 +4,7 @@ Context optimization for reducing token usage.
 from typing import List, Tuple, Any, Optional
 from enum import Enum
 from dataclasses import dataclass
-from argentum.cost_optimization.token_counter import TokenCounter, TokenUsage, TokenizerType
+from .token_counter import TokenCounter, TokenUsage, TokenizerType
 
 class OptimizationStrategy(Enum):
     AGGRESSIVE = "aggressive"

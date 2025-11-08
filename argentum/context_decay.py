@@ -246,6 +246,33 @@ class ContextDecay:
         active_items.sort(key=lambda x: x[2], reverse=True)
         return active_items
     
+    def get_all_items(self) -> List[Tuple[str, Any, float, float]]:
+        """
+        Return all context items with their current weights and importance.
+        
+        Returns:
+            List of tuples: (key, value, current_weight, importance) for all items,
+            sorted by current weight in descending order
+            
+        Examples:
+            >>> decay = ContextDecay(half_life_steps=5)
+            >>> decay.add("item1", "data1", importance=0.9)
+            >>> decay.add("item2", "data2", importance=0.5)
+            >>> 
+            >>> all_items = decay.get_all_items()
+            >>> for key, value, weight, importance in all_items:
+            ...     print(f"{key}: weight={weight:.2f}, importance={importance:.2f}")
+        """
+        all_items = []
+        
+        for key, item in self._items.items():
+            current_weight = self._calculate_current_weight(item)
+            all_items.append((key, item['value'], current_weight, item['importance']))
+        
+        # Sort by weight descending (most relevant first)
+        all_items.sort(key=lambda x: x[2], reverse=True)
+        return all_items
+    
     def clear_expired(self, threshold: float = 0.1) -> int:
         """
         Remove items with weight below threshold to free memory.
