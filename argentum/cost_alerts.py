@@ -27,12 +27,15 @@ import re
 from urllib.parse import urlparse
 import html
 
-# Try to import cost tracker
+# Cost tracker integration (optional)
+COST_TRACKING_AVAILABLE = False
 try:
-    from .argentum.cost_optimization.cost_tracker import CostTracker
+    # Try to import cost tracker if available
+    from .cost_optimization.cost_tracker import CostTracker
     COST_TRACKING_AVAILABLE = True
 except ImportError:
-    COST_TRACKING_AVAILABLE = False
+    # Cost tracking is optional
+    pass
 
 logger = logging.getLogger(__name__)
 
