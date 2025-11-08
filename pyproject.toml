@@ -68,10 +68,8 @@ perf = [
     "memory-profiler>=0.60.0"
 ]
 
-# All optional dependencies
-all = [
-    "argentum-agent[lint,dev,docs,perf]"
-]
+# All optional dependencies (empty - use individual groups)
+all = []
 
 [project.urls]
 Homepage = "https://github.com/MarsZDF/argentum"
