@@ -7,7 +7,7 @@
 spec_version: "1.0"
 target_audience: ["LLM", "AI_AGENT", "AUTOMATION"]
 package_name: "argentum-agent"
-current_version: "0.2.0"
+current_version: "0.2.1"
 installation: "pip install argentum-agent"
 primary_use_case: "cost_intelligence_and_optimization"
 ```
@@ -526,8 +526,13 @@ print("Performance:", metrics)
 
 ```yaml
 version_matrix:
-  "0.2.0":
+  "0.2.1":
     python_versions: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+    breaking_changes: []
+    new_features: ["machine_readable_documentation"]
+    
+  "0.2.0":
+    python_versions: ["3.8", "3.9", "3.10", "3.11", "3.12"] 
     breaking_changes: []
     new_features: ["cost_optimization", "enhanced_security"]
     
