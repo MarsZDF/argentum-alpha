@@ -7,7 +7,7 @@
 spec_version: "1.0"
 target_audience: ["LLM", "AI_AGENT", "AUTOMATION"]
 package_name: "argentum-agent"
-current_version: "0.2.1"
+current_version: "0.2.2"
 installation: "pip install argentum-agent"
 primary_use_case: "cost_intelligence_and_optimization"
 ```

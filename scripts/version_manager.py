@@ -85,6 +85,7 @@ class VersionManager:
         self.pyproject_file = project_root / "pyproject.toml"
         self.version_file = project_root / "argentum" / "__version__.py"
         self.changelog_file = project_root / "CHANGELOG.md"
+        self.agent_guide_file = project_root / "AGENT_GUIDE.md"
     
     def get_current_version(self) -> SemanticVersion:
         """Get the current version from __version__.py."""
@@ -115,15 +116,53 @@ class VersionManager:
             self.pyproject_file.write_text(updated)
             print_success(f"Updated {self.pyproject_file.name}")
         
-        # Update __version__.py
+        # Update __version__.py with all version fields
         content = self.version_file.read_text()
-        updated = re.sub(
+        
+        # Update __version__ string
+        content = re.sub(
             r'__version__ = ["\'][^"\']+["\']',
             f'__version__ = "{new_version}"',
             content
         )
-        self.version_file.write_text(updated)
-        print_success(f"Updated {self.version_file.name}")
+        
+        # Update __version_info__ tuple
+        content = re.sub(
+            r'__version_info__ = \([^)]+\)',
+            f'__version_info__ = ({new_version.major}, {new_version.minor}, {new_version.patch})',
+            content
+        )
+        
+        # Update MAJOR, MINOR, PATCH constants
+        content = re.sub(r'MAJOR = \d+', f'MAJOR = {new_version.major}', content)
+        content = re.sub(r'MINOR = \d+', f'MINOR = {new_version.minor}', content)
+        content = re.sub(r'PATCH = \d+', f'PATCH = {new_version.patch}', content)
+        
+        # Update docstring examples
+        content = re.sub(
+            r">>> get_version\(\)\s*\n\s*'[^']+'",
+            f">>> get_version()\\n        '{new_version}'",
+            content
+        )
+        content = re.sub(
+            r">>> get_version\(build=True\)\s*\n\s*'[^']+'",
+            f">>> get_version(build=True)\\n        '{new_version}+build.123'",
+            content
+        )
+        
+        self.version_file.write_text(content)
+        print_success(f"Updated {self.version_file.name} (all version fields)")
+        
+        # Update AGENT_GUIDE.md
+        if self.agent_guide_file.exists():
+            guide_content = self.agent_guide_file.read_text()
+            guide_updated = re.sub(
+                r'current_version: "[^"]+"',
+                f'current_version: "{new_version}"',
+                guide_content
+            )
+            self.agent_guide_file.write_text(guide_updated)
+            print_success(f"Updated {self.agent_guide_file.name}")
     
     def update_changelog(self, new_version: SemanticVersion) -> None:
         """Update CHANGELOG.md with new version entry."""

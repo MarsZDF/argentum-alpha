@@ -1,12 +1,12 @@
 """Version information for argentum package."""
 
 __version__ = "0.2.2"
-__version_info__ = (0, 1, 0)
+__version_info__ = (0, 2, 2)
 
 # Semantic version components
 MAJOR = 0
-MINOR = 1
-PATCH = 0
+MINOR = 2
+PATCH = 2
 
 # Build information
 BUILD = None
@@ -24,9 +24,9 @@ def get_version(build: bool = False) -> str:
         
     Examples:
         >>> get_version()
-        '0.1.0'
+        '0.2.2'
         >>> get_version(build=True)
-        '0.1.0+build.123' # if BUILD is set
+        '0.2.2+build.123' # if BUILD is set
     """
     version = f"{MAJOR}.{MINOR}.{PATCH}"
     
