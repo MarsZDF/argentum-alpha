@@ -80,6 +80,23 @@ except ImportError as e:
         def __init__(self, *args, **kwargs):
             raise ImportError("Issue requires 'argentum-agent[lint]' dependencies")
 
+
+# Cost optimization (always available)
+try:
+    from argentum.cost_optimization import (
+        CostOptimizationOrchestrator,
+        TokenBudgetManager,
+        CostTracker,
+        TokenCounter,
+        CacheLayer,
+        ContextOptimizer,
+        ModelSelector,
+    )
+    _COST_OPTIMIZATION_AVAILABLE = True
+except ImportError as e:
+    _COST_OPTIMIZATION_AVAILABLE = False
+    _cost_opt_error = str(e)
+
 # Public API
 __all__ = [
     # Version info
@@ -101,6 +118,15 @@ __all__ = [
     "PlanLinter",
     "LintResult", 
     "Issue",
+    
+    # Cost optimization
+    "CostOptimizationOrchestrator",
+    "TokenBudgetManager",
+    "CostTracker",
+    "TokenCounter",
+    "CacheLayer",
+    "ContextOptimizer",
+    "ModelSelector",
 ]
 
 def check_dependencies() -> dict:
@@ -119,6 +145,7 @@ def check_dependencies() -> dict:
     """
     return {
         "plan_lint": _PLAN_LINT_AVAILABLE,
+        "cost_optimization": _COST_OPTIMIZATION_AVAILABLE,
     }
 
 # Convenience function for common use cases
