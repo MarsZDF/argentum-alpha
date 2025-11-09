@@ -76,7 +76,6 @@ Homepage = "https://github.com/MarsZDF/argentum"
 Repository = "https://github.com/MarsZDF/argentum"
 Documentation = "https://argentum-agent.readthedocs.io"
 "Bug Tracker" = "https://github.com/MarsZDF/argentum/issues"
-Changelog = "https://github.com/MarsZDF/argentum/blob/main/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
 include = ["argentum*"]
