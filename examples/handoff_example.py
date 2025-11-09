@@ -350,7 +350,7 @@ def demonstrate_error_handling():
     
     # Test empty fields
     try:
-        empty_handoff = Handoff("", "agent_b", "summary", [], 0.8)
+        empty_handoff = protocol.create_handoff("", "agent_b", "summary", [], confidence=0.8)
         protocol.validate_handoff(empty_handoff)
         print("❌ Should have failed with empty from_agent")
     except ValueError as e:

@@ -482,11 +482,82 @@ class TestCostTracking(unittest.TestCase):
         self.assertGreater(report.total_cost, 0)
 ```
 
+## LIBRARY_INTERFACE_VALIDATION_CHECKLIST
+
+### LLM/Agent Integration Validation Prompt
+**BEFORE writing any Argentum code, verify these patterns:**
+
+```yaml
+validation_checklist:
+  imports:
+    - "Use session-based access: session = argentum.create_agent_session()"
+    - "Never import CostTracker directly: use session['cost_tracker']"
+    - "Check availability: if session.get('cost_tracker'):"
+    
+  handoff_interface:
+    - "Use HandoffProtocol().create_handoff() NOT Handoff.create()"
+    - "Pattern: protocol = HandoffProtocol(); handoff = protocol.create_handoff(...)"
+    
+  context_decay_interface:
+    - "Use context.get_active() NOT context.items"
+    - "Returns: List[Tuple[str, Any, float]] = (key, value, current_weight)"
+    
+  state_diff_interface:
+    - "Use diff.get_changes() NOT diff.diff()"
+    - "Pattern: changes = diff.get_changes(snapshot_1, snapshot_2)"
+    
+  cost_tracking_interface:
+    - "Use tracker.record_usage() with required params: operation, tokens_used, agent_id"
+    - "Check method exists: hasattr(tracker, 'record_usage')"
+```
+
+### Pre-Code Validation Questions
+**Ask yourself these before writing any Argentum integration:**
+
+1. **Did I check the session-based pattern?**
+   ```python
+   session = argentum.create_agent_session("agent_id")
+   # Use session["component"] NOT direct imports
+   ```
+
+2. **Did I verify each method call against the actual library interface?**
+   ```python
+   # Wrong: handoff = Handoff.create(...)
+   # Right: protocol = HandoffProtocol(); handoff = protocol.create_handoff(...)
+   ```
+
+3. **Did I handle optional components properly?**
+   ```python
+   # Always check availability
+   tracker = session.get("cost_tracker")
+   if tracker:
+       tracker.record_usage(...)
+   ```
+
+4. **Did I use the correct return types?**
+   ```python
+   # context.get_active() returns List[Tuple[str, Any, float]]
+   for key, value, weight in context.get_active():
+       print(f"{key}: {weight}")
+   ```
+
 ## TROUBLESHOOTING_GUIDE
 
 ### Common Issues and Solutions
 ```yaml
 issue_patterns:
+  wrong_handoff_interface:
+    error: "AttributeError: type object 'Handoff' has no attribute 'create'"
+    solution: "Use HandoffProtocol().create_handoff() not Handoff.create()"
+    
+  wrong_context_interface:
+    error: "AttributeError: 'ContextDecay' object has no attribute 'items'"
+    solution: "Use context.get_active() not context.items"
+    
+  wrong_state_diff_interface:
+    error: "AttributeError: 'StateDiff' object has no attribute 'diff'"
+    solution: "Use diff.get_changes(snap1, snap2) not diff.diff()"
+    
   import_error_plan_lint:
     error: "ImportError: No module named 'jsonschema'"
     solution: "pip install argentum-agent[lint]"
