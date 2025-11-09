@@ -34,7 +34,6 @@ classifiers = [
     "Topic :: System :: Monitoring"
 ]
 dependencies = [
-    "requests>=2.20.0",
     "typing-extensions>=4.0.0; python_version<'3.10'"
 ]
 

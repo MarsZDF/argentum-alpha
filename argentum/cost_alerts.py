@@ -26,7 +26,12 @@ from email.mime.text import MIMEText
 from typing import Any, Callable, Dict, List, Optional
 from urllib.parse import urlparse
 
-import requests
+# Optional dependencies
+try:
+    import requests
+    REQUESTS_AVAILABLE = True
+except ImportError:
+    REQUESTS_AVAILABLE = False
 
 # Cost tracker integration (optional)
 COST_TRACKING_AVAILABLE = False
@@ -528,6 +533,12 @@ This is an automated alert from Argentum cost monitoring.
             }
 
         # Security controls for HTTP requests
+        if not REQUESTS_AVAILABLE:
+            raise ImportError(
+                "requests library required for webhook alerts. "
+                "Install with: pip install requests"
+            )
+        
         response = requests.post(
             channel["url"],
             json=payload,
@@ -583,6 +594,12 @@ This is an automated alert from Argentum cost monitoring.
             payload["channel"] = channel["channel"]
 
         # Security controls for HTTP requests
+        if not REQUESTS_AVAILABLE:
+            raise ImportError(
+                "requests library required for webhook alerts. "
+                "Install with: pip install requests"
+            )
+        
         response = requests.post(
             channel["url"],
             json=payload,
